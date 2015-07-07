@@ -1,6 +1,7 @@
 #include "chip8.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void chip8_init(chip8* c, char* filename)
 {
@@ -20,6 +21,7 @@ void chip8_init(chip8* c, char* filename)
 void chip8_emulate_cycle(chip8* c)
 {
     chip8_fetch_opcode(c);
+    chip8_execute_opcode(c);
     chip8_update_timers(c);
 }
 
@@ -33,7 +35,7 @@ void chip8_load_program(chip8* c, char* filename)
         exit(1);
     }
 
-    for (int i = 0, char chr = 0; (chr = fgetc(fp)) != EOF; ++i)
+    for (int i = 0, chr = 1; (chr = fgetc(fp)) != EOF; ++i)
     {
         c->memory[i + START_OFFSET] = chr;
     }
@@ -95,6 +97,32 @@ void chip8_fetch_opcode(chip8* c)
     c->current_opcode = c->memory[c->program_counter] << 8 | c->memory[c->program_counter + 1];
 }
 
+void chip8_execute_opcode(chip8* c)
+{
+    switch (c->current_opcode & 0xF000)
+    {
+        case 0x0000:
+            switch (c->current_opcode & 0x000F)
+            {
+                case 0x0000:
+                    chip8_op_clear_screen(c);
+                    break;
+                case 0x000E:
+                    chip8_op_return_sub(c);
+                    break;
+                default:
+                    fprintf(stderr, "Unknown opcode: 0x%X\n", c->current_opcode);
+                    break;
+            }
+        case 0xA000:
+            chip8_op_set_address(c);
+            break;
+        default:
+            fprintf(stderr, "Unknown opcode: 0x%X\n", c->current_opcode);
+            break;
+    }
+}
+
 void chip8_update_timers(chip8* c)
 {
     if (c->delay_timer > 0)
@@ -111,4 +139,20 @@ void chip8_update_timers(chip8* c)
 
         c->sound_timer--;
     }
+}
+
+void chip8_op_set_address(chip8* c)
+{
+    c->address_register = c->current_opcode & 0x0FFF;
+    c->program_counter += 2;
+}
+
+void chip8_op_clear_screen(chip8* c)
+{
+
+}
+
+void chip8_op_return_sub(chip8* c)
+{
+
 }

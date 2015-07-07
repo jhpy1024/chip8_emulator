@@ -31,7 +31,7 @@ typedef struct chip8
     unsigned char keys[NUM_KEYS];
 } chip8;
 
-void chip8_init(chip8* c);
+void chip8_init(chip8* c, char* filename);
 void chip8_emulate_cycle(chip8* c);
 
 void chip8_load_program(chip8* c, char* filename);
@@ -42,6 +42,11 @@ void chip8_clear_memory(chip8* c);
 void chip8_reset_timers(chip8* c);
 void chip8_load_fontset(chip8* c);
 void chip8_fetch_opcode(chip8* c);
+void chip8_execute_opcode(chip8* c);
 void chip8_update_timers(chip8* c);
+
+void chip8_op_set_address(chip8* c);
+void chip8_op_clear_screen(chip8* c);
+void chip8_op_return_sub(chip8* c);
 
 #endif
