@@ -48,5 +48,8 @@ void chip8_update_timers(chip8* c);
 void chip8_op_set_address(chip8* c);
 void chip8_op_clear_screen(chip8* c);
 void chip8_op_return_sub(chip8* c);
+void chip8_op_call_sub(chip8* c);
+void chip8_op_jump(chip8* c);
+void chip8_op_add_y_to_x(chip8* c);
 
 #endif

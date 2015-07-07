@@ -117,6 +117,14 @@ void chip8_execute_opcode(chip8* c)
         case 0xA000:
             chip8_op_set_address(c);
             break;
+        case 0x2000:
+            chip8_op_call_sub(c);
+            break;
+        case 0x1000:
+            chip8_op_jump(c);
+            break;
+        case 0x0004:
+            chip8_op_add_y_to_x(c);
         default:
             fprintf(stderr, "Unknown opcode: 0x%X\n", c->current_opcode);
             break;
@@ -149,10 +157,34 @@ void chip8_op_set_address(chip8* c)
 
 void chip8_op_clear_screen(chip8* c)
 {
-
+    /* Handle SDL stuff. */
+    chip8_clear_graphics(c);
 }
 
 void chip8_op_return_sub(chip8* c)
 {
 
+}
+
+void chip8_op_call_sub(chip8* c)
+{
+    c->stack[c->stack_pointer++] = c->program_counter;
+    c->program_counter = c->current_opcode & 0x0FFF;
+}
+
+void chip8_op_jump(chip8* c)
+{
+    c->program_counter = c->current_opcode & 0x0FFF;
+}
+
+void chip8_op_add_y_to_x(chip8* c)
+{
+    int x_index = (c->current_opcode & 0x0F00) >> 8;
+    int y_index = (c->current_opcode & 0x00F0) >> 4;
+    unsigned char x = c->registers[x_index];
+    unsigned char y = c->registers[y_index];
+
+    c->registers[0xF] = y > (0xFF - x) ? 1 : 0;
+    c->registers[x_index] += c->registers[y_index];
+    c->program_counter += 2;
 }
