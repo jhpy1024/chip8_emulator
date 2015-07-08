@@ -31,6 +31,8 @@ typedef struct chip8
     unsigned char keys[NUM_KEYS];
 } chip8;
 
+chip8* chip8_new(char* filename);
+void chip8_free(chip8* c);
 void chip8_init(chip8* c, char* filename);
 void chip8_emulate_cycle(chip8* c);
 

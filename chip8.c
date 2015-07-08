@@ -11,6 +11,18 @@ static void (*chip8_ops[16])(chip8* c) =
     chip8_op_c, chip8_op_d, chip8_op_e, chip8_op_f
 };
 
+chip8* chip8_new(char* filename)
+{
+    chip8* c = malloc(sizeof(struct chip8));
+    chip8_init(c, filename);
+    return c;
+}
+
+void chip8_free(chip8* c)
+{
+    free(c);
+}
+
 void chip8_init(chip8* c, char* filename)
 {
     c->program_counter = 0x200;
