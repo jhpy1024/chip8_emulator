@@ -201,7 +201,7 @@ void chip8_op_5(chip8* c)
  */
 void chip8_op_6(chip8* c)
 {
-
+    c->registers[(c->current_opcode & 0x0F00) >> 8] = c->current_opcode & 0x00FF;
 }
 
 /*
@@ -209,7 +209,7 @@ void chip8_op_6(chip8* c)
  */
 void chip8_op_7(chip8* c)
 {
-
+    c->registers[(c->current_opcode & 0x0F00) >> 8] += c->current_opcode & 0x00FF;
 }
 
 /*
