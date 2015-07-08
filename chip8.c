@@ -225,7 +225,38 @@ void chip8_op_7(chip8* c)
  */
 void chip8_op_8(chip8* c)
 {
+    int x = (c->current_opcode & 0x0F00) >> 8;
+    int y = (c->current_opcode & 0x00F0) >> 4;
 
+    switch (c->current_opcode & 0x000F)
+    {
+        case 0x0000:
+            c->registers[x] = c->registers[y];
+            break;
+        case 0x0001:
+            c->registers[x] = c->registers[x] | c->registers[y];
+            break;
+        case 0x0002:
+            c->registers[x] = c->registers[x] & c->registers[y];
+            break;
+        case 0x0003:
+            c->registers[x] = c->registers[x] ^ c->registers[y];
+            break;
+        case 0x0004:
+            break;
+        case 0x0005:
+            break;
+        case 0x0006:
+            break;
+        case 0x0007:
+            break;
+        case 0x000E:
+            break;
+        default:
+            break;
+    }
+
+    c->program_counter += 2;
 }
 
 /*
