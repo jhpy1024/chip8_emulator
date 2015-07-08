@@ -185,7 +185,15 @@ void chip8_op_4(chip8* c)
  */
 void chip8_op_5(chip8* c)
 {
+    char vx = c->registers[(c->current_opcode & 0x0F00) >> 8];
+    char vy = c->registers[(c->current_opcode & 0x00F0) >> 4];
 
+    if (vx == vy)
+    {
+        c->program_counter += 2;
+    }
+
+    c->program_counter += 2;
 }
 
 /*
