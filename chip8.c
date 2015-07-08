@@ -153,7 +153,15 @@ void chip8_op_2(chip8* c)
  */
 void chip8_op_3(chip8* c)
 {
+    int reg = (c->current_opcode & 0x0F00) >> 8;
+    char nn = c->current_opcode & 0x00FF;
 
+    if (c->registers[reg] == nn)
+    {
+        c->program_counter += 2;
+    }
+
+    c->program_counter += 2;
 }
 
 /*
