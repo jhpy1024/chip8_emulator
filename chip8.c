@@ -129,7 +129,7 @@ void chip8_execute_opcode(chip8* c)
  */
 void chip8_op_0(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -137,7 +137,7 @@ void chip8_op_0(chip8* c)
  */
 void chip8_op_1(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -145,7 +145,7 @@ void chip8_op_1(chip8* c)
  */
 void chip8_op_2(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -202,6 +202,7 @@ void chip8_op_5(chip8* c)
 void chip8_op_6(chip8* c)
 {
     c->registers[(c->current_opcode & 0x0F00) >> 8] = c->current_opcode & 0x00FF;
+    c->program_counter += 2;
 }
 
 /*
@@ -210,6 +211,7 @@ void chip8_op_6(chip8* c)
 void chip8_op_7(chip8* c)
 {
     c->registers[(c->current_opcode & 0x0F00) >> 8] += c->current_opcode & 0x00FF;
+    c->program_counter += 2;
 }
 
 /*
@@ -268,7 +270,7 @@ void chip8_op_8(chip8* c)
  */
 void chip8_op_9(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -276,7 +278,7 @@ void chip8_op_9(chip8* c)
  */
 void chip8_op_a(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -284,7 +286,7 @@ void chip8_op_a(chip8* c)
  */
 void chip8_op_b(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -292,7 +294,7 @@ void chip8_op_b(chip8* c)
  */
 void chip8_op_c(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -302,7 +304,7 @@ void chip8_op_c(chip8* c)
  */
 void chip8_op_d(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -311,7 +313,7 @@ void chip8_op_d(chip8* c)
  */
 void chip8_op_e(chip8* c)
 {
-
+    c->program_counter += 2;
 }
 
 /*
@@ -355,6 +357,8 @@ void chip8_op_f(chip8* c)
         default:
             break;
     }
+
+    c->program_counter += 2;
 }
 
 void chip8_update_timers(chip8* c)
