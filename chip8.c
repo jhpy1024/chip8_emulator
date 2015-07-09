@@ -270,6 +270,14 @@ void chip8_op_8(chip8* c)
  */
 void chip8_op_9(chip8* c)
 {
+    int x = (c->current_opcode & 0x0F00) >> 8;
+    int y = (c->current_opcode & 0x00F0) >> 4;
+
+    if (c->registers[x] != c->registers[y])
+    {
+        c->program_counter += 2;
+    }
+
     c->program_counter += 2;
 }
 
@@ -278,7 +286,7 @@ void chip8_op_9(chip8* c)
  */
 void chip8_op_a(chip8* c)
 {
-    c->program_counter += 2;
+    c->program_counter = c->current_opcode & 0x0FFF;
 }
 
 /*
@@ -286,7 +294,7 @@ void chip8_op_a(chip8* c)
  */
 void chip8_op_b(chip8* c)
 {
-    c->program_counter += 2;
+    c->program_counter = (c->current_opcode & 0x0FFF) + c->registers[0];
 }
 
 /*
