@@ -331,7 +331,30 @@ void chip8_op_e(chip8* c)
  */
 void chip8_op_f(chip8* c)
 {
+    int x = (c->current_opcode & 0x0F00) >> 8;
 
+    switch (c->current_opcode & 0x000F)
+    {
+        case 0x0007:
+            c->registers[x] = c->delay_timer;
+            break;
+        case 0x000A:
+            break;
+        case 0x0005:
+            break;
+        case 0x0008:
+            c->sound_timer = c->registers[x];
+            break;
+        case 0x000E:
+            c->address_register += c->registers[x];
+            break;
+        case 0x0009:
+            break;
+        case 0x0003:
+            break;
+        default:
+            break;
+    }
 }
 
 void chip8_update_timers(chip8* c)
