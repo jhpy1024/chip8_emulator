@@ -247,10 +247,14 @@ void chip8_op_8(chip8* c)
         case 0x0005:
             break;
         case 0x0006:
+            c->registers[0xF] = c->registers[x] & 0xF;
+            c->registers[x] = c->registers[x] >> 1;
             break;
         case 0x0007:
             break;
         case 0x000E:
+            c->registers[0xF] = c->registers[x] & 0xF;
+            c->registers[x] = c->registers[x] << 1;
             break;
         default:
             break;
