@@ -343,6 +343,26 @@ void chip8_op_f(chip8* c)
         case 0x000A:
             break;
         case 0x0005:
+            switch (c->current_opcode & 0x00F0)
+            {
+                case 0x0010:
+                    c->delay_timer = c->registers[x];
+                    break;
+                case 0x0050:
+                    for (unsigned short i = 0; i < x; ++i)
+                    {
+                        c->memory[c->address_register + i] = c->registers[i];
+                    }
+                    break;
+                case 0x0060:
+                    for (unsigned short i = 0; i < x; ++i)
+                    {
+                        c->registers[i] = c->memory[c->address_register + i];
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
         case 0x0008:
             c->sound_timer = c->registers[x];
