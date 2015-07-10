@@ -2,6 +2,7 @@
 
 #include <time.h>
 #include <stdio.h>
+#include <limits.h>
 #include <stdlib.h>
 
 static void (*chip8_ops[16])(chip8* c) =
@@ -12,8 +13,7 @@ static void (*chip8_ops[16])(chip8* c) =
     chip8_op_c, chip8_op_d, chip8_op_e, chip8_op_f
 };
 
-chip8* chip8_new(char* filename)
-{
+chip8* chip8_new(char* filename) {
     chip8* c = malloc(sizeof(struct chip8));
     chip8_init(c, filename);
     return c;
@@ -249,6 +249,8 @@ void chip8_op_8(chip8* c)
             c->registers[x] = c->registers[x] ^ c->registers[y];
             break;
         case 0x0004:
+            c->registers[0xF] = (c->registers[y] > UCHAR_MAX - c->registers[x]) ? 1 : 0;
+            c->registers[x] += c->registers[y];
             break;
         case 0x0005:
             break;
