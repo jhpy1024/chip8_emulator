@@ -140,7 +140,7 @@ void chip8_op_0(chip8* c)
  */
 void chip8_op_1(chip8* c)
 {
-    c->program_counter += 2;
+    c->program_counter = c->current_opcode & 0x0FFF;
 }
 
 /*
