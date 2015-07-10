@@ -1,5 +1,6 @@
 #include "chip8.h"
 
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -36,6 +37,8 @@ void chip8_init(chip8* c, char* filename)
     chip8_clear_memory(c);
     chip8_load_fontset(c);
     chip8_load_program(c, filename);
+
+    srand(time(NULL));
 }
 
 void chip8_emulate_cycle(chip8* c)
@@ -302,6 +305,7 @@ void chip8_op_b(chip8* c)
  */
 void chip8_op_c(chip8* c)
 {
+    c->registers[(c->current_opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (c->current_opcode & 0x00FF);
     c->program_counter += 2;
 }
 
