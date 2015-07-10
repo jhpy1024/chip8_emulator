@@ -132,7 +132,7 @@ void chip8_execute_opcode(chip8* c)
  */
 void chip8_op_0(chip8* c)
 {
-    c->program_counter += 2;
+    c->program_counter = c->stack[--c->stack_pointer];
 }
 
 /*
@@ -148,7 +148,8 @@ void chip8_op_1(chip8* c)
  */
 void chip8_op_2(chip8* c)
 {
-    c->program_counter += 2;
+    c->stack[c->stack_pointer++] = c->program_counter;
+    c->program_counter = c->current_opcode & 0x0FFF;
 }
 
 /*
