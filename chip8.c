@@ -253,6 +253,8 @@ void chip8_op_8(chip8* c)
             c->registers[x] += c->registers[y];
             break;
         case 0x0005:
+            c->registers[0xF] = (c->registers[y] > c->registers[x]) ? 0 : 1;
+            c->registers[x] -= c->registers[y];
             break;
         case 0x0006:
             c->registers[0xF] = c->registers[y] & 0xF;
